@@ -1,5 +1,14 @@
 require 'spec_helper'
 
+describe Charecter, '#children' do
+	it 'should return all of the children the charecter has' do
+		ned = FactoryGirl.create(:charecter)
+		jon = FactoryGirl.create(:charecter, first_name: "Jon", father: ned)
+
+		ned.children.should include jon
+	end
+end
+
 describe Charecter, '#validate_parent_is_not_a_child' do
 	before :each do
 		@ned = FactoryGirl.create(:charecter)

@@ -14,6 +14,10 @@ class Charecter < ActiveRecord::Base
 		Charecter.where("mother_id = ? or father_id = ?", id, id)
 	end
 
+	def bastards
+		
+	end
+
   def validate_parent_is_not_a_child
   	errors.add(:mother, "A charecter's child cannot also be its mother") if mother.present? && children.where("id = ?", mother.id).size > 0
   	errors.add(:father, "A charecter's child cannot also be its father") if father.present? && children.where("id = ?", father.id).size > 0
