@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>First name:</b>
+  <%= @charecter.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%= @charecter.last_name %>
+</p>
+
+
+<%= link_to 'Edit', edit_charecter_path(@charecter) %> |
+<%= link_to 'Back', charecters_path %>
