@@ -34,12 +34,14 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-group :development do
-	gem 'debugger'
+group :development, :test do
+	gem 'ruby-debug19'
+	gem 'rspec-rails'
 end
 
 group :test do
-	gem 'rspec-rails'
+	gem 'capybara'
 	gem 'cucumber-rails'
+	gem 'database_cleaner'	
 	gem 'factory_girl_rails'
 end
