@@ -11,6 +11,7 @@ describe Charecter do
 		subject.valid?.should be_true	
 	end
 
+	it { should respond_to :is_bastard }
 	it { should respond_to :first_name }
 	it { should respond_to :last_name }
 	it { should respond_to :sex }
@@ -43,6 +44,17 @@ describe Charecter, '#children' do
 		jon = FactoryGirl.create(:charecter, first_name: "Jon", father: ned)
 	
 		ned.children.should include jon
+	end
+end
+
+describe Charecter, '#bastards' do
+	it 'should return a list of all the charecter\'s children that are bastards' do
+		ned = FactoryGirl.create(:charecter)
+		jon = FactoryGirl.create(:charecter, first_name: "Jon", father: ned, is_bastard: true)
+		robb = FactoryGirl.create(:charecter, first_name: "Robb")
+
+		ned.bastards.size.should == 1
+		ned.bastards.where("first_name = jon").should be_present
 	end
 end
 
