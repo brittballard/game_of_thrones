@@ -1,4 +1,5 @@
 class Charecter < ActiveRecord::Base
+	validates :sex, :inclusion => { :in => %w(M F) }
 	validates :first_name, :last_name, :presence => true
 	validate :validate_parent_is_not_a_child, 
 						:validate_mother_and_father_are_not_the_same_charecter, 

@@ -1,10 +1,47 @@
 require 'spec_helper'
 
+describe Charecter do
+	before do
+		@ned = FactoryGirl.build(:charecter)
+	end
+
+	subject { @ned }
+
+	it 'should be valid' do
+		subject.valid?.should be_true	
+	end
+
+	it { should respond_to :first_name }
+	it { should respond_to :last_name }
+	it { should respond_to :sex }
+	it { should respond_to :mother }
+	it { should respond_to :father }
+	it { should respond_to :children }
+
+	it 'should require sex be either M or F' do
+		subject.sex = "G"
+		subject.valid?.should be_false
+		subject.errors.keys.should include(:sex)
+	end
+
+	it 'should require first_name' do
+		subject.first_name = ""
+		subject.valid?.should be_false
+		subject.errors.keys.should include(:first_name)
+	end
+
+	it 'should require last_name' do
+		subject.last_name = ""
+		subject.valid?.should be_false
+		subject.errors.keys.should include(:last_name)
+	end
+end
+
 describe Charecter, '#children' do
 	it 'should return all of the children the charecter has' do
 		ned = FactoryGirl.create(:charecter)
 		jon = FactoryGirl.create(:charecter, first_name: "Jon", father: ned)
-
+	
 		ned.children.should include jon
 	end
 end
@@ -22,7 +59,7 @@ describe Charecter, 'validation' do
 
 			@ned.mother = @arya
 
-			@ned.valid?
+			@ned.valid?.should be_false
 
 			@ned.errors.size.should == 1
 	  	@ned.errors.messages[:mother].should == ["A charecter's child cannot also be its mother"]
@@ -34,7 +71,7 @@ describe Charecter, 'validation' do
 
 			@ned.father = @arya
 
-			@ned.valid?
+			@ned.valid?.should be_false
 
 			@ned.errors.size.should == 1
 	  	@ned.errors.messages[:father].should == ["A charecter's child cannot also be its father"]
@@ -48,7 +85,7 @@ describe Charecter, 'validation' do
 			@ned.father = @arya
 			@ned.mother = @arya
 
-			@ned.valid?
+			@ned.valid?.should be_false
 
 			@ned.errors.size.should == 2
 	  	@ned.errors.messages[:mother].should == ["A charecter's mother and father cannot be the same charecter"]
@@ -60,7 +97,7 @@ describe Charecter, 'validation' do
 	  it 'should not allow a charecter to be its own father' do
 			@ned.father = @ned
 
-			@ned.valid?
+			@ned.valid?.should be_false
 
 			@ned.errors.size.should == 1
 	  	@ned.errors.messages[:father].should == ["A charecter cannot be its own father"]
@@ -69,7 +106,7 @@ describe Charecter, 'validation' do
 		it 'should not allow a charecter to be its own mother' do
 			@ned.mother = @ned
 
-			@ned.valid?
+			@ned.valid?.should be_false
 
 			@ned.errors.size.should == 1
 	  	@ned.errors.messages[:mother].should == ["A charecter cannot be its own mother"]
