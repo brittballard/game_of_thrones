@@ -12,11 +12,20 @@ class Charecter < ActiveRecord::Base
   belongs_to :father, :class_name => "Charecter"
   
 	def children
-		Charecter.where("mother_id = ? or father_id = ?", id, id)
+		Charecter.where("#{get_mother_or_father_id_column_name} = ?", id)
 	end
 
 	def bastards
-		
+		Charecter.where("#{get_mother_or_father_id_column_name} = ? and is_bastard = 't'", id)
+	end
+
+	def high_born_children
+		Charecter.where("#{get_mother_or_father_id_column_name} = ? and is_bastard = 'f'", id)
+	end
+
+	def add_child(child)
+		child.father = self unless self.sex == 'F'
+		child.mother = self unless self.sex == 'M'
 	end
 
   def validate_parent_is_not_a_child
@@ -35,4 +44,10 @@ class Charecter < ActiveRecord::Base
   	errors.add(:father, "A charecter cannot be its own father") if father.present? && father.id == id
   	errors.add(:mother, "A charecter cannot be its own mother") if mother.present? && mother.id == id
   end
+
+  private
+
+  	def get_mother_or_father_id_column_name
+  		self.sex == "F" ? "mother_id" : "father_id"
+  	end
 end

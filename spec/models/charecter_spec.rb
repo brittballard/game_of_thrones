@@ -18,6 +18,8 @@ describe Charecter do
 	it { should respond_to :mother }
 	it { should respond_to :father }
 	it { should respond_to :children }
+	it { should respond_to :bastards }
+	it { should respond_to :high_born_children }
 
 	it 'should require sex be either M or F' do
 		subject.sex = "G"
@@ -47,14 +49,43 @@ describe Charecter, '#children' do
 	end
 end
 
+describe Charecter, '#high_born_children' do
+	it 'should return a list of all the charecter\'s children that are not bastards' do
+		ned = FactoryGirl.create(:charecter)
+		jon = FactoryGirl.create(:charecter, first_name: "Jon", father: ned, is_bastard: true)
+		robb = FactoryGirl.create(:charecter, first_name: "Robb", father: ned)
+
+		ned.high_born_children.size.should == 1
+		ned.high_born_children.should include(robb)
+	end	
+end
+
 describe Charecter, '#bastards' do
 	it 'should return a list of all the charecter\'s children that are bastards' do
 		ned = FactoryGirl.create(:charecter)
 		jon = FactoryGirl.create(:charecter, first_name: "Jon", father: ned, is_bastard: true)
-		robb = FactoryGirl.create(:charecter, first_name: "Robb")
+		robb = FactoryGirl.create(:charecter, first_name: "Robb", father: ned)
 
 		ned.bastards.size.should == 1
-		ned.bastards.where("first_name = jon").should be_present
+		ned.bastards.should include(jon)
+	end
+end
+
+describe Charecter, '#add_child' do
+	it 'should set the child\'s father to the charecter if the charecter is male' do
+		ned = FactoryGirl.create(:charecter)
+		robb = FactoryGirl.build(:charecter, first_name: "Robb")
+		ned.add_child(robb)
+
+		robb.father.should == ned
+	end
+
+	it 'should set the child\'s mother to the charecter if the charecter is female' do
+		catalyn = FactoryGirl.create(:charecter, first_name: "Catalyn", sex: "F")
+		robb = FactoryGirl.build(:charecter, first_name: "Robb")
+		catalyn.add_child(robb)
+
+		robb.mother.should == catalyn
 	end
 end
 
