@@ -47,6 +47,18 @@ describe Charecter, '#children' do
 	
 		ned.children.should include jon
 	end
+
+	it 'should return as many rows as the sum of bastards + high_born_children' do
+		ned = FactoryGirl.create(:charecter)
+		jon = FactoryGirl.create(:charecter, first_name: "Jon", father: ned, is_bastard: true)
+		robb = FactoryGirl.create(:charecter, first_name: "Robb", father: ned)
+		bran = FactoryGirl.create(:charecter, first_name: "Bran", father: ned)
+		rikon = FactoryGirl.create(:charecter, first_name: "Rikon", father: ned)
+		arya = FactoryGirl.create(:charecter, first_name: "Arya", father: ned)
+		sansa = FactoryGirl.create(:charecter, first_name: "Sansa", father: ned)
+
+		ned.children.size.should == ned.bastards.size + ned.high_born_children.size	
+	end
 end
 
 describe Charecter, '#high_born_children' do

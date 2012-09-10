@@ -12,15 +12,15 @@ class Charecter < ActiveRecord::Base
   belongs_to :father, :class_name => "Charecter"
   
 	def children
-		Charecter.where("#{get_mother_or_father_id_column_name} = ?", id)
+		Charecter.where("#{get_mother_or_father_id_column} = ?", id)
 	end
 
 	def bastards
-		Charecter.where("#{get_mother_or_father_id_column_name} = ? and is_bastard = 't'", id)
+		Charecter.where("#{get_mother_or_father_id_column} = ? and is_bastard = 't'", id)
 	end
 
 	def high_born_children
-		Charecter.where("#{get_mother_or_father_id_column_name} = ? and is_bastard = 'f'", id)
+		Charecter.where("#{get_mother_or_father_id_column} = ? and is_bastard = 'f'", id)
 	end
 
 	def add_child(child)
@@ -47,7 +47,7 @@ class Charecter < ActiveRecord::Base
 
   private
 
-  	def get_mother_or_father_id_column_name
+  	def get_mother_or_father_id_column
   		self.sex == "F" ? "mother_id" : "father_id"
   	end
 end
