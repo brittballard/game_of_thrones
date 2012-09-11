@@ -5,7 +5,7 @@ class Charecter < ActiveRecord::Base
 						:validate_mother_and_father_are_not_the_same_charecter, 
 						:validate_that_a_charecter_is_not_its_own_parent
 
-  attr_accessible :first_name, :last_name
+  attr_accessible :first_name, :last_name, :sex
 
   has_one :house
   belongs_to :mother, :class_name => "Charecter"

@@ -28,13 +28,13 @@ describe Charecter do
 	end
 
 	it 'should require first_name' do
-		subject.first_name = ""
+		subject.first_name = nil
 		subject.valid?.should be_false
 		subject.errors.keys.should include(:first_name)
 	end
 
 	it 'should require last_name' do
-		subject.last_name = ""
+		subject.last_name = nil
 		subject.valid?.should be_false
 		subject.errors.keys.should include(:last_name)
 	end
