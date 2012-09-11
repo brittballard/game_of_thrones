@@ -3,11 +3,10 @@ Given /^I navigate to the new charecter screen$/ do
 end
 
 When /^I enter ned's information$/ do |charecter_info|
-  # charecter_info.hashes.each{ |charecter| puts "#{charecter[:first_name]} #{charecter[:last_name]}" }
   charecter_info.hashes.each do |charecter|
   	fill_in('First name', :with => charecter[:first_name])
   	fill_in('Last name', :with => charecter[:last_name])
-  	select('M', :from => 'Sex')
+  	select(charecter[:sex], :from => 'Sex')
   end
 end
 
